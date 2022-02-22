@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME Place Interface Enhancements
 // @namespace    https://greasyfork.org/users/30701-justins83-waze
-// @version      2022.02.14.01
+// @version      2022.02.22.01
 // @description  Enhancements to various Place interfaces
 // @include      https://www.waze.com/editor*
 // @include      https://www.waze.com/*/editor*
@@ -51,7 +51,7 @@ var UpdateObject, MultiAction;
     let hoursparser;
     let GLE;
     var catalog = [];
-    const updateMessage = "Option to automatically add RPP navigation point";
+    const updateMessage = "Fix custom place menu options resetting after saving";
     var lastSelectedFeature;
 
     //Layer definitions
@@ -715,6 +715,9 @@ var UpdateObject, MultiAction;
         buildNewPlaceList();
         //coming back from the HN edit mode now rebuilds the Place menu.
         W.editingMediator.on('change:editingHouseNumbers', buildNewPlaceList);
+
+        // Rebuild the places menu options after saving
+        W.editingMediator.on('change:editingEnabled', buildNewPlaceList);
 
         /********* SHORTCUTS *********/
         new WazeWrap.Interface.Shortcut('CreateResidentialPlaceShortcut', 'Creates a resdiential Place point', 'wmepie', 'Place Interface Enhancements', settings.CreateResidentialPlaceShortcut, function(){startPlacementMode(resCategory, true);}, null).add();
